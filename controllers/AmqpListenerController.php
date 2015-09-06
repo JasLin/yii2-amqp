@@ -79,5 +79,6 @@ class AmqpListenerController extends AmqpConsoleController
                 $interpreter::MESSAGE_INFO
             );
         }
+        $this->amqp->basic_ask($msg->delivery_info['delivery_tag']);
     }
 }

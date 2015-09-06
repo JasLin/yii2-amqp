@@ -179,7 +179,7 @@ class Amqp extends Component
             }
         }
         $this->channel->queue_bind($queueName, $exchange, $routing_key);
-        $this->channel->basic_consume($queueName, '', false, true, false, false, $callback);
+        $this->channel->basic_consume($queueName, '', false, false, false, false, $callback);
 
         while (count($this->channel->callbacks)) {
             $this->channel->wait();
@@ -187,6 +187,16 @@ class Amqp extends Component
 
         $this->channel->close();
         $this->connection->close();
+    }
+
+    /**
+     * no_ask is false, need to send a ask to broker.
+     *
+     * @param string $delivery_tag
+     */
+    public function basic_ask($delivery_tag)
+    {
+        return $this->channel->basic_ack($delivery_tag);
     }
 
     /**
