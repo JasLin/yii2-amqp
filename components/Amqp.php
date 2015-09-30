@@ -122,7 +122,8 @@ class Amqp extends Component
      */
     public function send($exchange, $routing_key, $message, $type = self::TYPE_TOPIC)
     {
-        $message = $this->prepareMessage($message);
+        $properties = ['delivery_mode' => 2]; // Persistent by default
+        $message = $this->prepareMessage($message, $properties);
         if ($type == self::TYPE_TOPIC) {
             $this->channel->exchange_declare($exchange, $type, false, true, false);
         }
